@@ -23,8 +23,16 @@ code {
 }
 
 .colorProps {
+  cursor: default;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%)
+}
+
+.disable-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }

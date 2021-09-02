@@ -1,15 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useMousePosition } from './components/useMousePosition';
 import { useScrollValue } from './components/useScrollValue';
+import { getColorFormatValues } from './components/getColorFormatValues';
+import { getConstraints } from './components/getConstraints';
 import './index.css';
 
 function App() {
   const [hue, setHue] = useState(0);
-  const [saturation, setSaturation] = useState(50);
+  const [saturation, setSaturation] = useState(0);
   const [lightness, setLightness] = useState(0);
+  const maxHue = 360;
 
   const mousePos = useMousePosition();
   const scrollVal = useScrollValue();
+
+  const constraints = useMemo(() => {
+    const props = {
+      hue,
+      setHue,
+      saturation,
+      setSaturation,
+      lightness,
+      setLightness,
+    };
+    return {
+      props,
+    };
+  }, [hue, saturation, lightness]);
+
+  getConstraints(constraints);
+
+  const colorFormat = getColorFormatValues();
 
   useEffect(() => {
     const mousePosDivByWindow = mousePos.y / window.innerHeight;
@@ -18,35 +39,41 @@ function App() {
   }, [mousePos.y]);
 
   useEffect(() => {
-    const mousePosDivByWindow = mousePos.x / 360;
-    const newHue = mousePosDivByWindow * 100;
+    const mousePosDivByWindow = mousePos.x / window.innerWidth;
+    const newHue = mousePosDivByWindow * maxHue;
     setHue(newHue);
   }, [mousePos.x]);
+
+  useEffect(() => {
+    setLightness(scrollVal);
+  }, [scrollVal]);
 
   const getHSL = (h, s, l) => {
     h = hue;
     s = saturation;
-    l = 50;
+    l = lightness;
 
     return `hsl(${h}, ${s}%, ${l}%)`;
   };
-
-  if (saturation > 100) {
-    return setSaturation(100);
-  }
-
-  if (saturation < 0) {
-    return setSaturation(0);
-  }
 
   return (
     <div className='container'>
       <div
         className='background'
+        id='background'
         style={{ backgroundColor: getHSL(hue, saturation, lightness) }}
       >
-        <div className='colorProps'>
-          <p>{'Saturation: ' + Math.round(saturation)}</p>
+        <div className='colorProps disable-select'>
+          <p>
+            {'Hue: ' +
+              Math.round(hue) +
+              ' Saturation: ' +
+              Math.round(saturation) +
+              '%' +
+              ' Lightness: ' +
+              lightness +
+              '%'}
+          </p>
         </div>
       </div>
     </div>

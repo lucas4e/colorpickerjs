@@ -1,16 +1,17 @@
 import { useEffect, useState } from 'react';
 
 export const useMousePosition = () => {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [position, setPosition] = useState({
+    x: window.innerWidth / 2,
+    y: window.innerHeight / 2,
+  });
   const [mousePressed, setMousePressed] = useState(false);
 
   useEffect(() => {
     const handleKeyPress = (e) => {
       if (e.type === 'mousedown') {
         setMousePressed(true);
-        console.log('Mouse pressed');
       } else {
-        console.log('Mouse released');
         setMousePressed(false);
       }
     };
