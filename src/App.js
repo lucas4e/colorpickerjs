@@ -14,6 +14,8 @@ function App() {
   const mousePos = useMousePosition();
   const scrollVal = useScrollValue();
 
+  const element = document.querySelector('.background');
+
   const constraints = useMemo(() => {
     const props = {
       hue,
@@ -30,7 +32,7 @@ function App() {
 
   getConstraints(constraints);
 
-  const colorFormat = getColorFormatValues();
+  const colorFormat = getColorFormatValues(element);
 
   useEffect(() => {
     const mousePosDivByWindow = mousePos.y / window.innerHeight;
@@ -64,16 +66,10 @@ function App() {
         style={{ backgroundColor: getHSL(hue, saturation, lightness) }}
       >
         <div className='colorProps disable-select'>
-          <p>
-            {'Hue: ' +
-              Math.round(hue) +
-              ' Saturation: ' +
-              Math.round(saturation) +
-              '%' +
-              ' Lightness: ' +
-              lightness +
-              '%'}
-          </p>
+          <p>{`HSL ${Math.round(hue)} ${Math.round(saturation)}% ${Math.round(
+            lightness
+          )}%`}</p>
+          <p>{colorFormat}</p>
         </div>
       </div>
     </div>
