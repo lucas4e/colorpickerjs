@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useMousePosition } from './components/useMousePosition';
 import { useScrollValue } from './components/useScrollValue';
-import { getColorFormatValues } from './components/getColorFormatValues';
-import { getConstraints } from './components/getConstraints';
+import { setConstraints } from './components/setConstraints';
+import { useCalculateRGB } from './components/useCalculateRGB';
+import { useCalculateHEX } from './components/useCalculateHEX';
 import './index.css';
 
 function App() {
@@ -14,7 +15,7 @@ function App() {
   const mousePos = useMousePosition();
   const scrollVal = useScrollValue();
 
-  const element = document.querySelector('.background');
+  const element = document.getElementById('background');
 
   const constraints = useMemo(() => {
     const props = {
@@ -30,9 +31,7 @@ function App() {
     };
   }, [hue, saturation, lightness]);
 
-  getConstraints(constraints);
-
-  const colorFormat = getColorFormatValues(element);
+  setConstraints(constraints);
 
   useEffect(() => {
     const mousePosDivByWindow = mousePos.y / window.innerHeight;
@@ -58,6 +57,13 @@ function App() {
     return `hsl(${h}, ${s}%, ${l}%)`;
   };
 
+  const displayHSL = () => {
+    return `hsl(${Math.round(hue)}, ${Math.round(saturation)}%, ${lightness}%)`;
+  };
+
+  const rgb = useCalculateRGB(element);
+  const hex = useCalculateHEX(element);
+
   return (
     <div className='container'>
       <div
@@ -66,10 +72,9 @@ function App() {
         style={{ backgroundColor: getHSL(hue, saturation, lightness) }}
       >
         <div className='colorProps disable-select'>
-          <p>{`HSL ${Math.round(hue)} ${Math.round(saturation)}% ${Math.round(
-            lightness
-          )}%`}</p>
-          <p>{colorFormat}</p>
+          <p>{displayHSL()}</p>
+          <p>{rgb}</p>
+          <p>{hex}</p>
         </div>
       </div>
     </div>
