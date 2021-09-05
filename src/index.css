@@ -15,6 +15,8 @@ code {
 .container {
   width: 100vw;
   height: 100vh;
+  position: fixed;
+  overflow-y: hidden;
 }
 
 .background {
@@ -22,12 +24,58 @@ code {
   height: 100%;
 }
 
-.colorProps {
-  cursor: default;
+.logo {
+  top: 50px;
+  font-size: 3rem;
+}
+
+.about {
   position: absolute;
+  top: 10px;
+  left: 10px;
+  opacity: 40%;
+  transition: 150ms;
+}
+
+.about:hover {
+  opacity: 100%;
+  cursor: pointer;
+}
+
+.colorProps {
   top: 50%;
+}
+
+.copyPopup {
+  bottom: -200px;
+  transition: 200ms ease;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 6px 6px 4px 1px rgba(0, 0, 0, 0.274);
+}
+
+.copyPopup div {
+  position: relative;
+  display: flex;
+}
+
+.copyPopup svg {
+  margin-top: 12px;
+}
+
+.popup {
+  bottom: 0 !important;
+}
+
+.absolute {
+  position: absolute;
   left: 50%;
-  transform: translate(-50%, -50%)
+  transform: translate(-50%, -50%);
+
 }
 
 .disable-select {
@@ -35,4 +83,8 @@ code {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+.cursor {
+  cursor: default !important;
 }

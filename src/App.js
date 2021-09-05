@@ -1,10 +1,13 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useMousePosition } from './components/useMousePosition';
 import { useScrollValue } from './components/useScrollValue';
 import { setConstraints } from './components/setConstraints';
 import { useCalculateRGB } from './components/useCalculateRGB';
 import { useCalculateHEX } from './components/useCalculateHEX';
 import './index.css';
+
+//Feather Icons
+import { Clipboard, HelpCircle, Copy } from 'react-feather';
 
 function App() {
   const [hasMoved, setHasMoved] = useState(false);
@@ -16,7 +19,16 @@ function App() {
   const mousePos = useMousePosition();
   const scrollVal = useScrollValue();
 
+  document.addEventListener('mousedown', () => {
+    setHasMoved(true);
+  });
+
+  document.addEventListener('wheel', () => {
+    setHasMoved(true);
+  });
+
   const element = document.getElementById('background');
+  const copy = document.getElementById('copyPopup');
 
   const constraints = useMemo(() => {
     const props = {
@@ -61,7 +73,12 @@ function App() {
   const handleClick = (e) => {
     navigator.clipboard.writeText(e).then(
       () => {
-        console.log('Copied ' + e + ' to clipboard');
+        if (!copy.classList.contains('popup')) {
+          copy.classList.add('popup');
+          setTimeout(() => {
+            copy.classList.remove('popup');
+          }, 1200);
+        }
       },
       () => {
         console.log('Copy to clipboard failed');
@@ -83,22 +100,33 @@ function App() {
         id='background'
         style={{ backgroundColor: getHSL(hue, saturation, lightness) }}
       >
-        <div className='colorProps disable-select'>
+        <div className='logo absolute'>
+          <p>ColorPickerJS</p>
+        </div>
+        <div className='about'>
+          <HelpCircle />
+        </div>
+        <div className='colorProps absolute disable-select cursor'>
           {!hasMoved ? (
-            <div>Mouse cursor to change color</div>
+            <div>Click and drag cursor to change the background color</div>
           ) : (
             <div>
               <p onClick={(e) => handleClick(e.target.innerHTML)}>
                 {displayHSL()}
               </p>
-              <p onClick={(e) => handleClick(e.target.innerHTML)}>
-                {rgb === 'rgb(0, 0, 0)' ? (rgb = 'rgb(64, 191, 191)') : rgb}
-              </p>
-              <p onClick={(e) => handleClick(e.target.innerHTML)}>
-                {hex === '#000000' ? (hex = '#40bfbf') : hex}
-              </p>
+              <p onClick={(e) => handleClick(e.target.innerHTML)}>{rgb}</p>
+              <p onClick={(e) => handleClick(e.target.innerHTML)}>{hex}</p>
             </div>
           )}
+        </div>
+        <div
+          id='copyPopup'
+          className='copyPopup absolute disable-select cursor'
+        >
+          <div>
+            <p>Copied</p>
+            <Clipboard />
+          </div>
         </div>
       </div>
     </div>
