@@ -24,11 +24,6 @@ code {
   height: 100%;
 }
 
-.logo {
-  top: 50px;
-  font-size: 3rem;
-}
-
 .about {
   position: absolute;
   top: 10px;
@@ -43,7 +38,46 @@ code {
 }
 
 .colorProps {
+  width: 250px;
   top: 50%;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 6px 6px 10px 1px rgba(0, 0, 0, 0.274);
+}
+
+.colorProps span {
+  display: flex;
+  justify-content: space-between;
+  line-height: 30px;
+}
+
+.colorProps svg {
+  margin-top: 15px;
+  padding: 5px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 3px 1.2px rgb(121, 121, 121);
+}
+
+.colorProps svg:hover {
+
+  box-shadow: 0px 0px 2px 1px rgb(121, 121, 121);
+
+}
+
+.colorProps h2 {
+  margin-right: 10px;
+  margin-top: 15px;
+}
+
+.colorProps svg:hover {
+  cursor: pointer;
+}
+
+.line {
+  width: 100%;
+  height: 1px;
+  background-color: black;
 }
 
 .copyPopup {
@@ -64,7 +98,9 @@ code {
 }
 
 .copyPopup svg {
-  margin-top: 12px;
+  color: green;
+  margin-top: 15px;
+  margin-left: 5px;
 }
 
 .popup {
