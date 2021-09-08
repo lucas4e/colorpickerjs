@@ -7,11 +7,11 @@ import { useCalculateHEX } from './components/useCalculateHEX';
 import './index.css';
 
 //Feather Icons
-import { Check, HelpCircle, Copy } from 'react-feather';
+import { Check, HelpCircle, Copy, ChevronRight } from 'react-feather';
 
 function App() {
-  const [hasMoved, setHasMoved] = useState(false);
-  const [hoverOnOutput, setHoverOnOutput] = useState(false);
+  const hasMoved = useRef(false);
+  const [InputHover, setInputHover] = useState(false);
   const [hue, setHue] = useState(0);
   const [saturation, setSaturation] = useState(0);
   const [lightness, setLightness] = useState(0);
@@ -20,22 +20,33 @@ function App() {
   const mousePos = useMousePosition();
   const scrollVal = useScrollValue();
 
-  const { HSLRef } = useRef(null);
-  const { HEXRef } = useRef(null);
-  const { RGBRef } = useRef(null);
+  const HSLRef = useRef(null);
+  const HEXRef = useRef(null);
+  const RGBRef = useRef(null);
 
   const element = document.getElementById('background');
   const copy = document.getElementById('copyPopup');
-  const colorBox = document.getElementById('colorProps');
+  const outputBox = document.getElementsByClassName('copyBtn');
 
   const listenForMove = () => {
-    setHasMoved(true);
+    hasMoved.current = true;
     document.removeEventListener('mousedown', listenForMove);
     document.removeEventListener('wheel', listenForMove);
   };
 
   document.addEventListener('mousedown', listenForMove, { once: true });
   document.addEventListener('wheel', listenForMove, { once: true });
+
+  if (outputBox) {
+    for (let i = 0; i < outputBox.length; i++) {
+      outputBox[i].addEventListener('mouseover', () => {
+        setInputHover(true);
+      });
+      outputBox[i].addEventListener('mouseout', () => {
+        setInputHover(false);
+      });
+    }
+  }
 
   const constraints = useMemo(() => {
     const props = {
@@ -54,7 +65,7 @@ function App() {
   setConstraints(constraints);
 
   useEffect(() => {
-    if (!hoverOnOutput) {
+    if (!InputHover) {
       const mousePosDivByWindow = mousePos.y / window.innerHeight;
       const newSaturation = mousePosDivByWindow * 100;
       setSaturation(newSaturation);
@@ -62,7 +73,7 @@ function App() {
   }, [mousePos.y]);
 
   useEffect(() => {
-    if (!hoverOnOutput) {
+    if (!InputHover) {
       const mousePosDivByWindow = mousePos.x / window.innerWidth;
       const newHue = mousePosDivByWindow * maxHue;
       setHue(newHue);
@@ -73,14 +84,6 @@ function App() {
     setLightness(scrollVal);
   }, [scrollVal]);
 
-  useEffect(() => {
-    if (colorBox) {
-      colorBox.addEventListener('mousedown', (e) => {
-        e ? setHoverOnOutput(true) : setHoverOnOutput(false);
-      });
-    }
-  }, [mousePos]);
-
   const getHSL = (h, s, l) => {
     h = hue;
     s = saturation;
@@ -90,7 +93,7 @@ function App() {
   };
 
   const handleClick = (e) => {
-    navigator.clipboard.writeText(e).then(
+    navigator.clipboard.writeText(e.current.innerHTML).then(
       () => {
         if (!copy.classList.contains('popup')) {
           copy.classList.add('popup');
@@ -125,14 +128,14 @@ function App() {
         </div>
 
         <div>
-          {!hasMoved ? (
+          {!hasMoved.current ? (
             <div className='infoMsg absolute disable-select'>
               Click and drag cursor to change the background color
             </div>
           ) : (
             <div
               id='colorProps'
-              className='colorProps absolute disable-select cursor'
+              className='colorProps absolute disable-select cursor glass'
             >
               <span>
                 <span>
@@ -141,7 +144,7 @@ function App() {
                     {hsl}
                   </p>
                 </span>
-                <Copy onClick={() => handleClick(HSLRef)} />
+                <Copy className='copyBtn' onClick={() => handleClick(HSLRef)} />
               </span>
               <div className='line'></div>
               <span>
@@ -151,7 +154,7 @@ function App() {
                     {rgb}
                   </p>
                 </span>
-                <Copy onClick={() => handleClick()} />
+                <Copy className='copyBtn' onClick={() => handleClick(RGBRef)} />
               </span>
               <div className='line'></div>
               <span>
@@ -161,15 +164,29 @@ function App() {
                     {hex}
                   </p>
                 </span>
-                <Copy onClick={() => handleClick()} />
+                <Copy className='copyBtn' onClick={() => handleClick(HEXRef)} />
               </span>
               <div className='line'></div>
+              <div className='instructions'>
+                <span>
+                  <ChevronRight />
+                  <p>Click and drag left and righ to change hue</p>
+                </span>
+                <span>
+                  <ChevronRight />
+                  <p>Click and drag up and down to change saturation</p>
+                </span>
+                <span>
+                  <ChevronRight />
+                  <p>Scroll to change lightness</p>
+                </span>
+              </div>
             </div>
           )}
         </div>
         <div
           id='copyPopup'
-          className='copyPopup absolute disable-select cursor'
+          className='copyPopup absolute disable-select cursor glass'
         >
           <div>
             <p>Copied</p>
