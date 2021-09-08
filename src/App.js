@@ -111,6 +111,7 @@ function App() {
 
   let rgb = useCalculateRGB(element);
   let hex = useCalculateHEX(element);
+  let hsl = displayHSL();
 
   return (
     <div className='container'>
@@ -122,19 +123,22 @@ function App() {
         <div className='about'>
           <HelpCircle />
         </div>
-        <div
-          id='colorProps'
-          className='colorProps absolute disable-select cursor'
-        >
+
+        <div>
           {!hasMoved ? (
-            <div>Click and drag cursor to change the background color</div>
+            <div className='infoMsg absolute disable-select'>
+              Click and drag cursor to change the background color
+            </div>
           ) : (
-            <div>
+            <div
+              id='colorProps'
+              className='colorProps absolute disable-select cursor'
+            >
               <span>
                 <span>
                   <h2>HSL</h2>
                   <p ref={HSLRef} value='HSL'>
-                    {displayHSL()}
+                    {hsl}
                   </p>
                 </span>
                 <Copy onClick={() => handleClick(HSLRef)} />

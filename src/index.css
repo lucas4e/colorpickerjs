@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: -apple-system, BlinkMacSystemFont, 'Nunito', 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -38,12 +38,16 @@ code {
 }
 
 .colorProps {
-  width: 250px;
   top: 50%;
-  background-color: white;
   padding: 20px;
+  width: 500px;
+  height: 600px;
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(7.5px);
+  -webkit-backdrop-filter: blur(7.5px);
   border-radius: 10px;
-  box-shadow: 6px 6px 10px 1px rgba(0, 0, 0, 0.274);
+  border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .colorProps span {
@@ -78,6 +82,11 @@ code {
   width: 100%;
   height: 1px;
   background-color: black;
+}
+
+.infoMsg {
+  top: 50%;
+  font-size: 28px;
 }
 
 .copyPopup {
