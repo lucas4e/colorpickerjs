@@ -170,7 +170,7 @@ function App() {
               <div className='instructions'>
                 <span>
                   <ChevronRight />
-                  <p>Click and drag left and righ to change hue</p>
+                  <p>Click and drag left and right to change hue</p>
                 </span>
                 <span>
                   <ChevronRight />
