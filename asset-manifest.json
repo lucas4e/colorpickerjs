@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/colorpickerjs/static/css/main.d5d22f11.chunk.css",
-    "main.js": "/colorpickerjs/static/js/main.9dffd7ed.chunk.js",
-    "main.js.map": "/colorpickerjs/static/js/main.9dffd7ed.chunk.js.map",
+    "main.js": "/colorpickerjs/static/js/main.c2c1e852.chunk.js",
+    "main.js.map": "/colorpickerjs/static/js/main.c2c1e852.chunk.js.map",
     "runtime-main.js": "/colorpickerjs/static/js/runtime-main.a5c6a072.js",
     "runtime-main.js.map": "/colorpickerjs/static/js/runtime-main.a5c6a072.js.map",
     "static/js/2.b341d9cb.chunk.js": "/colorpickerjs/static/js/2.b341d9cb.chunk.js",
@@ -15,6 +15,6 @@
     "static/js/runtime-main.a5c6a072.js",
     "static/js/2.b341d9cb.chunk.js",
     "static/css/main.d5d22f11.chunk.css",
-    "static/js/main.9dffd7ed.chunk.js"
+    "static/js/main.c2c1e852.chunk.js"
   ]
 }
